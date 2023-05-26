@@ -4,13 +4,11 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.CatsProgers.WebHelper.models.AnalysisResult;
 import ru.CatsProgers.WebHelper.models.DoctorConsultation;
-import ru.CatsProgers.WebHelper.models.StandardOfMedicalCare;
 import ru.CatsProgers.WebHelper.services.AnalysisResultService;
 import ru.CatsProgers.WebHelper.services.StandardService;
 import ru.CatsProgers.WebHelper.services.ConsultationService;
@@ -19,7 +17,7 @@ import ru.CatsProgers.WebHelper.utils.ConsultationNotCreatedException;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/assistant/api")
 public class AnalysisController {
     private final StandardService standardService;
@@ -34,11 +32,6 @@ public class AnalysisController {
     @GetMapping("/firstpage")
     public ResponseEntity<HttpStatus> getFirstPage(){
         return ResponseEntity.ok(HttpStatus.OK);
-    }
-    @ResponseBody
-    @GetMapping("/{id}")
-    public StandardOfMedicalCare getStandard(@PathVariable("id") int id){
-        return standardService.getStandardByConsultationId(id);
     }
     @PostMapping
     public String createConsultation(

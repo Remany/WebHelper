@@ -2,7 +2,6 @@ package ru.CatsProgers.WebHelper.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import ru.CatsProgers.WebHelper.utils.Gender;
 
 import java.util.Date;
 
@@ -14,9 +13,8 @@ public class Patient {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Enumerated(EnumType.STRING)
     @Column(name = "gender")
-    private Gender gender;
+    private String gender;
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 }
