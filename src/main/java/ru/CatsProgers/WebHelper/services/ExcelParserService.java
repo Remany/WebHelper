@@ -1,4 +1,4 @@
-package ru.CatsProgers.WebHelper.Services;
+package ru.CatsProgers.WebHelper.services;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.CatsProgers.WebHelper.models.Patient;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-public class ExcelParser {
+public class ExcelParserService {
     // Нужно засунуть данные в лист объектов
     public static List<Patient> readExcel(String path, List<Patient> patients) {
         Workbook wb;
@@ -43,7 +43,6 @@ public class ExcelParser {
             default:
                 result = "";
         }
-
         return result;
     }
 }

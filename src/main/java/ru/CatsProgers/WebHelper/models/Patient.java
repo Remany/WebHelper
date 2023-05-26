@@ -1,20 +1,22 @@
 package ru.CatsProgers.WebHelper.models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
-import ru.CatsProgers.WebHelper.utils.Doctor;
-import ru.CatsProgers.WebHelper.utils.Male;
+import ru.CatsProgers.WebHelper.utils.Gender;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
+@Entity
+@Table(name = "Patient")
 public class Patient {
-    private Male male;
-    private Date dateOfBirth;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String codeMKB;
-    private Date dateIfService;
-    private Doctor doctor;
-    private List<String> checkups;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    private Gender gender;
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
 }

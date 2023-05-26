@@ -1,6 +1,6 @@
 package ru.CatsProgers.WebHelper.utils;
 
-public enum Male {
+public enum Gender {
     man,
     women
 }
