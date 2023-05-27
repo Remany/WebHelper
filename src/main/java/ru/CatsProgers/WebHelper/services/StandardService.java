@@ -19,14 +19,17 @@ public class StandardService {
         this.standardOfMedicalCareRepository = medicalProfileRepository;
         this.consultationService = consultationService;
     }
-
     public Optional<StandardOfMedicalCare> getStandardByDiagnose(String diagnose){
         return standardOfMedicalCareRepository.findStandardOfMedicalCareByDiagnose(diagnose);
     }
-
     public StandardOfMedicalCare getStandardByConsultationId(int id){
         Optional<StandardOfMedicalCare> foundStandard = standardOfMedicalCareRepository
                 .findStandardOfMedicalCareByDiagnose(consultationService.getConsultationById(id).getDiagnose());
         return foundStandard.orElseThrow(StandardNotFoundException::new);
+    }
+    public Optional<StandardOfMedicalCare> getStandardByDestination(String destination){
+        Optional<StandardOfMedicalCare> foundStandard =
+                standardOfMedicalCareRepository.findStandardOfMedicalCareByDestinationIsContaining(destination);
+        return foundStandard;
     }
 }

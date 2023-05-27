@@ -18,5 +18,5 @@ public class StandardOfMedicalCare {
     @Column(name = "medical_service_code")
     private String medicalServiceCode;
     @Column(name = "name_of_medical_service")
-    private String nameOfMedicalService;
+    private String destination;
 }

@@ -24,14 +24,12 @@ public class AnalysisResultService {
         this.standardService = standardService;
         this.entityManager = entityManager;
     }
-
     @Transactional
     public void removeLastAnalysis(){
         Session session = entityManager.unwrap(Session.class);
         List<AnalysisResult> lastResult = session.createQuery("FROM AnalysisResult").getResultList();
         session.delete(lastResult.get(0));
     }
-
     @Transactional
     public void saveNewAnalysisEntity(DoctorConsultation consultation){
         removeLastAnalysis();
@@ -45,7 +43,8 @@ public class AnalysisResultService {
         AnalysisResult result = loadResult.get(0);
         Optional<StandardOfMedicalCare> standard = standardService.getStandardByDiagnose(result.getDiagnose());
         if (standard.isPresent()){
-            if (standard.get().getNameOfMedicalService().equals(result.getDestination())) {
+            Optional<StandardOfMedicalCare> destination = standardService.getStandardByDestination(result.getDestination());
+            if (destination.isPresent()) {
                 result.setMessage("Назначения соответствуют стандарту оказания медицинской помощи");
             } else {
                 result.setMessage("Сделаны дополнительные назначения, не входящие в стандарт оказания медицинской помощи");

@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface StandardOfMedicalCareRepository extends JpaRepository<StandardOfMedicalCare, Integer> {
     Optional<StandardOfMedicalCare> findStandardOfMedicalCareByDiagnose(String diagnose);
-    Optional<StandardOfMedicalCare> findStandardOfMedicalCareByNameOfMedicalService(String nameOfMedicalService);
+    Optional<StandardOfMedicalCare> findStandardOfMedicalCareByDestinationIsContaining(String destination);
 }
+
