@@ -1,56 +1,57 @@
 package ru.CatsProgers.WebHelper.controllers;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.CatsProgers.WebHelper.models.AnalysisResult;
-import ru.CatsProgers.WebHelper.models.DoctorConsultation;
 import ru.CatsProgers.WebHelper.services.AnalysisResultService;
-import ru.CatsProgers.WebHelper.services.StandardService;
-import ru.CatsProgers.WebHelper.services.ConsultationService;
+import ru.CatsProgers.WebHelper.services.ExcelParserService;
 import ru.CatsProgers.WebHelper.utils.ConsultationErrorResponse;
 import ru.CatsProgers.WebHelper.utils.ConsultationNotCreatedException;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/assistant/api")
+@RequestMapping("/assistant/firstpage")
 public class AnalysisController {
-    private final StandardService standardService;
-    private final ConsultationService consultationService;
+    @Value(value = "${upload.path}")
+    private String path;
     private final AnalysisResultService analysisResultService;
+    private final ExcelParserService excelParserService;
     @Autowired
-    public AnalysisController(StandardService standardService, ConsultationService consultationService, AnalysisResultService analysisResultService) {
-        this.standardService = standardService;
-        this.consultationService = consultationService;
+    public AnalysisController(AnalysisResultService analysisResultService, ExcelParserService excelParserService) {
         this.analysisResultService = analysisResultService;
+        this.excelParserService = excelParserService;
     }
-    @GetMapping("/firstpage")
+    @GetMapping
     public ResponseEntity<HttpStatus> getFirstPage(){
+        analysisResultService.removeLastAnalysis();
         return ResponseEntity.ok(HttpStatus.OK);
     }
     @PostMapping
-    public String createConsultation(
-            @RequestBody @Valid DoctorConsultation consultation, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
-            StringBuilder errorMessage = new StringBuilder();
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error: errors){
-                errorMessage
-                            .append(error.getField())
-                            .append(" - ")
-                            .append(error.getDefaultMessage())
-                            .append(";");
+    public void postConsultation(@RequestParam("file") MultipartFile file) {
+        if (file != null) {
+            File uploadDir = new File(path);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
             }
-            throw new ConsultationNotCreatedException(errorMessage.toString());
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+            try {
+                File toFile = new File(path + "/" + resultFileName);
+                file.transferTo(toFile);
+                List<String> cellTexts = ExcelParserService.readExcel(toFile.getPath());
+                excelParserService.setValuesInFields(cellTexts);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-        consultationService.saveConsultation(consultation);
-        analysisResultService.saveNewAnalysisEntity(consultation);
-        return "redirect:/result";
     }
     @ExceptionHandler
     private ResponseEntity<ConsultationErrorResponse> handleException(ConsultationNotCreatedException e){

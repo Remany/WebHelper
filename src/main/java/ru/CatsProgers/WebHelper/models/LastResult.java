@@ -6,23 +6,18 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "analysis_result")
-public class AnalysisResult {
+@Table(name = "last_results")
+public class LastResult {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "message")
-    private String message;
     @Column(name = "status")
     private int status;
-    @Column(name = "destination")
-    private String destination;
-    @Column(name = "diagnose")
-    private String diagnose;
     @Column(name = "date_of_consultation")
     @NotEmpty(message = "Not should be empty")
     private String dateOfConsultation;
-    @OneToOne(mappedBy = "result")
-    private LastResult lastResult;
+    @OneToOne
+    @JoinColumn(name = "result_id", referencedColumnName = "id")
+    private AnalysisResult result;
 }
