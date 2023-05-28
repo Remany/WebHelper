@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.CatsProgers.WebHelper.models.AnalysisResult;
-import ru.CatsProgers.WebHelper.models.DoctorConsultation;
+import ru.CatsProgers.WebHelper.models.Consultation;
 import ru.CatsProgers.WebHelper.services.AnalysisResultService;
 import ru.CatsProgers.WebHelper.services.StandardService;
 import ru.CatsProgers.WebHelper.services.ConsultationService;
@@ -35,7 +35,7 @@ public class AnalysisController {
     }
     @PostMapping
     public String createConsultation(
-            @RequestBody @Valid DoctorConsultation consultation, BindingResult bindingResult){
+            @RequestBody @Valid Consultation consultation, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             StringBuilder errorMessage = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();

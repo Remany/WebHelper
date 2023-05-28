@@ -3,7 +3,7 @@ package ru.CatsProgers.WebHelper.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.CatsProgers.WebHelper.models.DoctorConsultation;
+import ru.CatsProgers.WebHelper.models.Consultation;
 import ru.CatsProgers.WebHelper.repositories.ConsultationRepository;
 import ru.CatsProgers.WebHelper.utils.ConsultationNotFoundException;
 
@@ -18,15 +18,15 @@ public class ConsultationService {
         this.consultationRepository = consultationRepository;
     }
     @Transactional
-    public void saveConsultation(DoctorConsultation consultation){
+    public void saveConsultation(Consultation consultation){
         consultationRepository.save(consultation);
     }
-    public DoctorConsultation getConsultationById(int id){
-       Optional<DoctorConsultation> foundConsultation = consultationRepository.findDoctorConsultationById(id);
+    public Consultation getConsultationById(int id){
+       Optional<Consultation> foundConsultation = consultationRepository.findConsultationById(id);
        return foundConsultation.orElseThrow(ConsultationNotFoundException::new);
     }
-    public DoctorConsultation getConsultationByDiagnose(String diagnose){
-        Optional<DoctorConsultation> foundConsultation = consultationRepository.findDoctorConsultationByDiagnose(diagnose);
+    public Consultation getConsultationByDiagnose(String diagnose){
+        Optional<Consultation> foundConsultation = consultationRepository.findConsultationByDiagnose(diagnose);
         return foundConsultation.orElseThrow(ConsultationNotFoundException::new);
     }
 }

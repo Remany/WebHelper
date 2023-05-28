@@ -3,18 +3,16 @@ package ru.CatsProgers.WebHelper.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @Entity
-@Table(name = "doctor_consultation")
-public class DoctorConsultation {
+@Table(name = "consultation")
+public class Consultation {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "date_of_service")
-    private Date dateOfBirth;
+    @Column(name = "date_of_consultation")
+    private String dateOfConsultation;
     @Column(name = "destination")
     private String destination;
     @Column(name = "diagnose")
@@ -23,4 +21,5 @@ public class DoctorConsultation {
     private String codeMKB;
     @Column(name = "doctor_profile")
     private String profile;
+    // TODO реализовать связи между таблицамии
 }

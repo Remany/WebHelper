@@ -3,8 +3,6 @@ package ru.CatsProgers.WebHelper.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @Entity
 @Table(name = "Patient")
@@ -16,5 +14,6 @@ public class Patient {
     @Column(name = "gender")
     private String gender;
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private String dateOfBirth;
+    // TODO реализовать логику сета id консультаций, она должна быть по идеи на стороне конусльтаций
 }
