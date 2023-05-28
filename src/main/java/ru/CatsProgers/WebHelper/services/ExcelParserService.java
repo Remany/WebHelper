@@ -4,11 +4,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.CatsProgers.WebHelper.models.Patient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class ExcelParserService {
-    // Нужно засунуть данные в лист объектов
     public static List<Patient> readExcel(String path, List<Patient> patients) {
         Workbook wb;
         try {
