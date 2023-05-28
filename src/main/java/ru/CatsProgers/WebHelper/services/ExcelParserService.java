@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ExcelParserService {
-    public static List<Patient> readExcel(String path, List<Patient> patients) {
+    public static List<String> readExcel(String path) {
         Workbook wb;
         try {
             wb = new XSSFWorkbook(path);
@@ -17,12 +17,14 @@ public class ExcelParserService {
             throw new RuntimeException(e);
         }
         Sheet sheet = wb.getSheetAt(0);
+        List<String> cellTexts = new ArrayList<>();
+
         for (Row row : sheet) {
             for (Cell cell : row) {
-                System.out.println(getCellText(cell));
+                cellTexts.add(getCellText(cell));
             }
         }
-        return patients;
+        return cellTexts;
     }
 
     private static String getCellText(Cell cell) {
@@ -46,3 +48,4 @@ public class ExcelParserService {
         return result;
     }
 }
+

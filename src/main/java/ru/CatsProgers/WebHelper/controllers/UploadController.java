@@ -36,7 +36,7 @@ public class UploadController {
             try {
                 File toFile = new File(path + "/" + resultFileName);
                 file.transferTo(toFile);
-                ExcelParserService.readExcel(toFile.getPath(), patients);
+                ExcelParserService.readExcel(toFile.getPath());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
