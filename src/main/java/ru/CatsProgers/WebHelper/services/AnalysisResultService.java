@@ -65,6 +65,7 @@ public class AnalysisResultService {
             result.setStatus(3);
         }
         lastResultService.saveLastResultAndHisFields(result);
+        saveAnalysis(result);
     }
     @Transactional
     public AnalysisResult getResult(){
@@ -73,7 +74,6 @@ public class AnalysisResultService {
         AnalysisResult result = loadResult.get(0);
         Optional<MedicalStandard> standard = standardService.getStandardByDiagnose(result.getDiagnose());
         setMessageAndStatus(standard, result);
-        saveAnalysis(result);
         return result;
     }
 }

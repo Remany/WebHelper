@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.CatsProgers.WebHelper.models.AnalysisResult;
 import ru.CatsProgers.WebHelper.models.Consultation;
 import ru.CatsProgers.WebHelper.services.AnalysisResultService;
-import ru.CatsProgers.WebHelper.services.StandardService;
 import ru.CatsProgers.WebHelper.services.ConsultationService;
 import ru.CatsProgers.WebHelper.utils.ConsultationErrorResponse;
 import ru.CatsProgers.WebHelper.utils.ConsultationNotCreatedException;
@@ -18,23 +17,22 @@ import ru.CatsProgers.WebHelper.utils.ConsultationNotCreatedException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/assistant/api")
+@RequestMapping("/assistant/firstpage")
 public class AnalysisController {
-    private final StandardService standardService;
     private final ConsultationService consultationService;
     private final AnalysisResultService analysisResultService;
     @Autowired
-    public AnalysisController(StandardService standardService, ConsultationService consultationService, AnalysisResultService analysisResultService) {
-        this.standardService = standardService;
+    public AnalysisController(ConsultationService consultationService, AnalysisResultService analysisResultService) {
         this.consultationService = consultationService;
         this.analysisResultService = analysisResultService;
     }
-    @GetMapping("/firstpage")
+    @GetMapping
     public ResponseEntity<HttpStatus> getFirstPage(){
+        analysisResultService.removeLastAnalysis();
         return ResponseEntity.ok(HttpStatus.OK);
     }
     @PostMapping
-    public String createConsultation(
+    public ResponseEntity<HttpStatus> createConsultation(
             @RequestBody @Valid Consultation consultation, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             StringBuilder errorMessage = new StringBuilder();
@@ -50,7 +48,7 @@ public class AnalysisController {
         }
         consultationService.saveConsultation(consultation);
         analysisResultService.saveNewAnalysisEntity(consultation);
-        return "redirect:/result";
+        return ResponseEntity.ok(HttpStatus.OK);
     }
     @ExceptionHandler
     private ResponseEntity<ConsultationErrorResponse> handleException(ConsultationNotCreatedException e){
