@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.CatsProgers.WebHelper.models.AnalysisResult;
-import ru.CatsProgers.WebHelper.models.Patient;
 import ru.CatsProgers.WebHelper.services.AnalysisResultService;
 import ru.CatsProgers.WebHelper.services.ExcelParserService;
 import ru.CatsProgers.WebHelper.utils.ConsultationErrorResponse;
@@ -15,7 +14,6 @@ import ru.CatsProgers.WebHelper.utils.ConsultationNotCreatedException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,7 +36,6 @@ public class AnalysisController {
     }
     @PostMapping
     public void postConsultation(@RequestParam("file") MultipartFile file) {
-        List<Patient> patients = new ArrayList<>();
         if (file != null) {
             File uploadDir = new File(path);
             if (!uploadDir.exists()) {
