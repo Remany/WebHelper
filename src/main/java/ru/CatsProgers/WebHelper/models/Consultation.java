@@ -29,7 +29,4 @@ public class Consultation {
     @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "id")
     private Patient patient;
-    @OneToOne
-    @JoinColumn(name = "standard_id", referencedColumnName = "id")
-    private MedicalStandard standard;
 }

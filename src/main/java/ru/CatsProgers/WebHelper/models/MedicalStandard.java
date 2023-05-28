@@ -23,6 +23,4 @@ public class MedicalStandard {
     private String medicalServiceCode;
     @Column(name = "destination")
     private String destination;
-    @OneToOne(mappedBy = "standard")
-    private Consultation consultation;
 }
