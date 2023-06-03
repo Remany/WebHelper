@@ -14,10 +14,12 @@ import java.util.List;
 
 @Service
 public class ExcelParserService {
+    private final AnalysisResultService analysisResultService;
     private final ConsultationService consultationService;
     private final PatientService patientService;
     @Autowired
-    public ExcelParserService(ConsultationService consultationService, PatientService patientService) {
+    public ExcelParserService(AnalysisResultService analysisResultService, ConsultationService consultationService, PatientService patientService) {
+        this.analysisResultService = analysisResultService;
         this.consultationService = consultationService;
         this.patientService = patientService;
     }
@@ -75,6 +77,7 @@ public class ExcelParserService {
         consultation.setProfile(cellTexts.get(6));
         consultation.setDestination(cellTexts.get(7));
         consultationService.saveConsultation(consultation);
+        analysisResultService.saveNewAnalysisEntity(consultation);
     }
 }
 
